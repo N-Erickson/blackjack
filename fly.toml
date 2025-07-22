@@ -1,5 +1,7 @@
-app = "blackjack-wcbwwq"
+app = "blackjack-5v-8aa"
 primary_region = "ord"
+
+[build]
 
 [[services]]
   internal_port = 2222
@@ -7,17 +9,19 @@ primary_region = "ord"
   auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
-  max_machines_running = 1
 
   [[services.ports]]
     port = 2222
 
   [services.concurrency]
     type = "connections"
-    hard_limit = 25
-    soft_limit = 20
+    hard_limit = 100
+    soft_limit = 80
 
 [[vm]]
   cpu_kind = "shared"
   cpus = 1
   memory_mb = 256
+
+[processes]
+  app = ""
