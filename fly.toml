@@ -1,28 +1,18 @@
-app = "blackjack-lug-sg"
+app = "blackjack-r8nm-g"
 primary_region = "ord"
 
-[build]
-
 [[services]]
-  internal_port = 2222
+  internal_port = 22
   protocol = "tcp"
   auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
-  max_machines_running = 1  # THIS ENSURES ONLY 1 MACHINE
+  max_machines_running = 1
 
   [[services.ports]]
-    port = 2222
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 100
-    soft_limit = 80
+    port = 22
 
 [[vm]]
   cpu_kind = "shared"
   cpus = 1
   memory_mb = 256
-
-[processes]
-  app = ""
