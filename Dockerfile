@@ -9,13 +9,15 @@ RUN apk add --no-cache python3 openssh bash && \
 COPY blackjack.py /root/blackjack.py
 RUN chmod +x /root/blackjack.py
 
-# Create SSH config without ForceCommand
+# Create SSH config
 RUN echo "Port 2222" > /etc/ssh/sshd_config && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
     echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config && \
     echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config && \
     echo "PubkeyAuthentication no" >> /etc/ssh/sshd_config && \
-    echo "StrictModes no" >> /etc/ssh/sshd_config
+    echo "StrictModes no" >> /etc/ssh/sshd_config && \
+    echo "ListenAddress 0.0.0.0" >> /etc/ssh/sshd_config && \
+    echo "ListenAddress ::" >> /etc/ssh/sshd_config
 
 # Remove root password
 RUN passwd -d root
@@ -29,4 +31,5 @@ RUN echo '#!/bin/bash' > /root/.profile && \
 
 EXPOSE 2222
 
-CMD ["/usr/sbin/sshd", "-D"]
+# Run sshd with explicit error output
+CMD ["/usr/sbin/sshd", "-D", "-e", "-p", "2222"]
