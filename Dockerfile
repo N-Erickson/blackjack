@@ -1,38 +1,32 @@
 FROM alpine:3.18
 
 # Install Python and OpenSSH
-RUN apk add --no-cache python3 openssh-server bash && \
+RUN apk add --no-cache python3 openssh bash && \
     ssh-keygen -A && \
     mkdir -p /run/sshd
 
-# Copy the game
+# Copy game
 COPY blackjack.py /root/blackjack.py
-RUN chmod 755 /root/blackjack.py
+RUN chmod +x /root/blackjack.py
 
-# Create proper SSH configuration
-RUN cat > /etc/ssh/sshd_config <<EOF
-Port 2222
-HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_ecdsa_key
-HostKey /etc/ssh/ssh_host_ed25519_key
-PermitRootLogin yes
-PermitEmptyPasswords yes
-PasswordAuthentication yes
-ChallengeResponseAuthentication no
-PubkeyAuthentication no
-PrintMotd no
-PrintLastLog no
-Subsystem sftp /usr/lib/ssh/sftp-server
-ForceCommand /usr/bin/python3 /root/blackjack.py
-EOF
+# Create SSH config without ForceCommand
+RUN echo "Port 2222" > /etc/ssh/sshd_config && \
+    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
+    echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config && \
+    echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config && \
+    echo "PubkeyAuthentication no" >> /etc/ssh/sshd_config && \
+    echo "StrictModes no" >> /etc/ssh/sshd_config
 
-# Set root shell and remove password
-RUN sed -i 's|root:x:0:0:root:/root:/bin/ash|root:x:0:0:root:/root:/bin/bash|' /etc/passwd && \
-    passwd -d root
+# Remove root password
+RUN passwd -d root
 
-# Test configuration
-RUN /usr/sbin/sshd -t
+# Set bash as shell
+RUN sed -i 's|root:x:0:0:root:/root:/bin/ash|root:x:0:0:root:/root:/bin/bash|' /etc/passwd
+
+# Create .profile to run game on login
+RUN echo '#!/bin/bash' > /root/.profile && \
+    echo 'exec python3 /root/blackjack.py' >> /root/.profile
 
 EXPOSE 2222
 
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+CMD ["/usr/sbin/sshd", "-D"]
