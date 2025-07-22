@@ -1,4 +1,4 @@
-app = "blackjack-r8nm-g"
+app = ""
 primary_region = "ord"
 
 [[services]]
