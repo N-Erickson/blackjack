@@ -1,17 +1,22 @@
-app = "cyberjack-ssh"
-primary_region = "ord"
+# fly.toml app configuration file generated for blackjack--an5ua on 2025-07-22T05:00:59Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-[[vm]]
-  cpu_kind = "shared"
-  cpus = 1
-  memory_mb = 256
+app = 'blackjack--an5ua'
+primary_region = 'ord'
 
-[[services]]
+[build]
+
+[http_service]
   internal_port = 22
-  protocol = "tcp"
-  auto_stop_machines = true
+  force_https = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  
-  [[services.ports]]
-    port = 22
+  processes = ['app']
+
+[[vm]]
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 256
