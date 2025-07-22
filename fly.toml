@@ -1,24 +1,21 @@
-app = "cyberjack-ssh"
+app = "blackjack-wcbwwq"
 primary_region = "ord"
-kill_signal = "SIGINT"
-kill_timeout = 5
-
-[env]
 
 [[services]]
   internal_port = 2222
   protocol = "tcp"
-  auto_stop_machines = true
+  auto_stop_machines = false
   auto_start_machines = true
-  min_machines_running = 1  # Keep at least one running for now
+  min_machines_running = 1
+  max_machines_running = 1
+
+  [[services.ports]]
+    port = 2222
 
   [services.concurrency]
     type = "connections"
     hard_limit = 25
     soft_limit = 20
-
-  [[services.ports]]
-    port = 2222
 
 [[vm]]
   cpu_kind = "shared"
