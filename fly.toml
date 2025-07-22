@@ -1,4 +1,4 @@
-app = "blackjack-5v-8aa"
+app = "blackjack-lug-sg"
 primary_region = "ord"
 
 [build]
@@ -9,6 +9,7 @@ primary_region = "ord"
   auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
+  max_machines_running = 1  # THIS ENSURES ONLY 1 MACHINE
 
   [[services.ports]]
     port = 2222
