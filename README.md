@@ -112,8 +112,6 @@ ssh cyberdeck.casino
 - ASCII card art
 - Responsive to terminal size
 
-## 🌐 Browser Fallback
-
 For users without native SSH clients:
 
 ### Windows
