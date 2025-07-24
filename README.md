@@ -133,6 +133,10 @@ ssh cyberdeck.casino
 # Or use PuTTY
 ```
 
+<img width="737" height="795" alt="image" src="https://github.com/user-attachments/assets/1296d330-7638-4474-88c8-66e3a344f1a8" />
+
+
+
 ## 🎯 Roadmap
 
 - [ ] Multiplayer tables
